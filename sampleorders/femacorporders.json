@@ -1,0 +1,28 @@
+{
+    "orders":[
+      {
+        "partnerid": "002",
+        "orderdate": "2018-09-30T04:52:50.824Z",
+        "amount": 5000,
+        "item": "computers",
+        "delvydate": "2018-09-30T04:52:50.824Z",
+        "uom": "numbers",
+        "status": "initial",
+        "currency": "usd",
+        "orderid": "",
+        "qty": 5
+      },
+      {
+        "partnerid": "002",
+        "orderdate": "2018-09-30T04:52:50.824Z",
+        "amount": 9000,
+        "item": "printers",
+        "delvydate": "2018-09-30T04:52:50.824Z",
+        "uom": "numbers",
+        "status": "initial",
+        "currency": "usd",
+        "orderid": "",
+        "qty": 5
+      }
+    ]
+}

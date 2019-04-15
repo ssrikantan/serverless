@@ -1,0 +1,28 @@
+{
+    "orders":[
+        {
+            "pid":"001",
+            "odate" : "2018-09-30T04:52:50.824Z",
+            "amount" : 5000,
+            "item":"computers",
+            "ddate":"2019-09-30T04:52:50.824Z",
+            "uom":"numbers",
+            "status" : "initial",
+            "currency":"usd",
+          "orderid": "",
+          "qty": 5
+        },
+      {
+        "pid": "001",
+        "odate": "2018-09-30T04:52:50.824Z",
+        "amount": 9000,
+        "item": "printers",
+        "ddate": "2019-09-30T04:52:50.824Z",
+        "uom": "numbers",
+        "status": "initial",
+        "currency": "usd",
+        "orderid": "",
+        "qty": 6
+      }
+    ]
+}
