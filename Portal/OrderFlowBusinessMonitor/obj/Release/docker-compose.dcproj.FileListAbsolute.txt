@@ -1,0 +1,7 @@
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\bin\Release\OrderFlowBusinessMonitor.Views.dll
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\bin\Release\OrderFlowBusinessMonitor.Views.pdb
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\bin\Release\OrderFlowBusinessMonitor.dll
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\bin\Release\OrderFlowBusinessMonitor.pdb
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\obj\Release\docker-compose.dcprojAssemblyReference.cache
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\obj\Release\docker-compose.dcproj.CoreCompileInputs.cache
+C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\obj\Release\docker-compose.dcproj.CopyComplete

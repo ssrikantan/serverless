@@ -72,7 +72,7 @@
               "codePackages": [
                 {
                   "name": "orderServiceCode",
-                  "image": "srikantan67/orderflowbusinessmonitor:v2",
+                  "image": "srikantan67/orderflowbusinessmonitor:v3",
                   "endpoints": [
                     {
                       "name": "orderServiceListener",

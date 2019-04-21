@@ -1,0 +1,16 @@
+services:
+  orderflowbusinessmonitor:
+    build:
+      context: C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor
+      dockerfile: OrderFlowBusinessMonitor/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: orderflowbusinessmonitor
+    ports:
+    - published: 50040
+      target: 80
+    volumes:
+    - C:\Users\Srikantans\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\Srikantans\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'
