@@ -72,23 +72,13 @@
               "codePackages": [
                 {
                   "name": "orderServiceCode",
-                  "image": "srikantan67/orderflowbusinessmonitor:v1",
+                  "image": "srikantan67/orderflowbusinessmonitor:v2",
                   "endpoints": [
                     {
                       "name": "orderServiceListener",
                       "port": "50039"
                     }
                   ],
-                  "resources": {
-                    "requests": {
-                      "cpu": "1",
-                      "memoryInGB": "1"
-                    }
-                  }
-                },
-                {
-                  "name": "orderServiceSideCar",
-                  "image": "seabreeze/azure-mesh-helloworld-sidecar:1.0-alpine",
                   "resources": {
                     "requests": {
                       "cpu": "1",

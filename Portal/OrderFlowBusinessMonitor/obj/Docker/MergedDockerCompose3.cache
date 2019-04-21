@@ -1,0 +1,32 @@
+services:
+  orderflowbusinessmonitor:
+    build:
+      context: C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor
+      dockerfile: OrderFlowBusinessMonitor/Dockerfile
+      target: base
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44374'
+      ASPNETCORE_URLS: http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: orderflowbusinessmonitor:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  bin/Debug/netcoreapp2.2/OrderFlowBusinessMonitor.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/bash -c "if PID=$$(pidof
+        -x dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 50039
+      target: 80
+    volumes:
+    - C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\OrderFlowBusinessMonitor:/app:rw
+    - C:\Users\Srikantans\vsdbg\vs2017u5:/remote_debugger:ro
+    - C:\Users\Srikantans\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\Srikantans\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages:ro
+    - C:\Users\Srikantans\.nuget\packages:/root/.nuget/packages:ro
+version: '3.4'

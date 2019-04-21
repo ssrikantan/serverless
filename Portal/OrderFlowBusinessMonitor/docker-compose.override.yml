@@ -4,11 +4,11 @@ services:
   orderflowbusinessmonitor:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44374
+      - ASPNETCORE_URLS=http://+:80
+ 
     ports:
       - "50039:80"
-      - "44374:443"
+      
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
