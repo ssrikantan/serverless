@@ -10,7 +10,7 @@
             "status" : "initial",
             "currency":"usd",
           "orderid": "",
-          "qty": 5
+          "qty": 2
         },
       {
         "pid": "001",
@@ -22,7 +22,7 @@
         "status": "initial",
         "currency": "usd",
         "orderid": "",
-        "qty": 6
+        "qty": 3
       }
     ]
 }

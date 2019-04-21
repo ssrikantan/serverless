@@ -1,0 +1,84 @@
+﻿@model OrderFlowBusinessMonitor.Models.Orders
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Orders</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.item)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.item)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.partnername)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.partnername)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ordernumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ordernumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.uom)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.uom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.qty)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.qty)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.partnercode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.partnercode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.currency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.currency)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.orderdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.orderdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.deliverydate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.deliverydate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
