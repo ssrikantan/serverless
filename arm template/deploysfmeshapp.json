@@ -1,0 +1,194 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String",
+      "metadata": {
+        "description": "Location of the resources."
+      }
+    },
+    "registryPassword": {
+      "defaultValue": "=kX6GYCA/YIQOPOFNiwF5g5vF=SnYNvy",
+      "type": "SecureString",
+      "metadata": {
+        "description": "Password for the private image registry server. For Azure Container Registry the CLI command 'az acr credential show --name <myacr> --query \"passwords[0].value\"' will show the password."
+      }
+    },
+    "registryUserName": {
+      "defaultValue": "b2bflowacr",
+      "type": "string",
+      "metadata": {
+        "description": "User name for the private image registry server. For Azure Container Registry the CLI command 'az acr credential show --name <myacr> --query \"username\"' will show the username."
+      }
+    },
+    "registryServer": {
+      "defaultValue": "b2bflowacr.azurecr.io",
+      "type": "string",
+      "metadata": {
+        "description": "Private image registry server. For example, '<myacr>.azurecr.io'"
+      }
+    },
+    "frontEndImage": {
+      "defaultValue": "b2bflowacr.azurecr.io/orderflowbusinessmonitor:v3",
+      "type": "string",
+      "metadata": {
+        "description": "The container image for the front end web service.  For example: '<myregistry>.azurecr.io/seabreeze/azure-mesh-todo-webfrontend:1.0-nanoserver-1709'"
+      }
+    },
+    "frontEndCpu": {
+      "defaultValue": "0.5",
+      "type": "string",
+      "metadata": {
+        "description": "The CPU resources for the front end web service."
+      }
+    },
+    "frontEndMemory": {
+      "defaultValue": "1.0",
+      "type": "string",
+      "metadata": {
+        "description": "The memory in GB for the front end web service."
+      }
+    },
+    "frontEndReplicaCount": {
+      "defaultValue": "1",
+      "type": "string",
+      "metadata": {
+        "description": "The number of service replicas for the front end web service."
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2018-09-01-preview",
+      "name": "ordersb2bapp",
+      "type": "Microsoft.ServiceFabricMesh/applications",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "Microsoft.ServiceFabricMesh/networks/ordersb2bappNetwork"
+      ],
+      "properties": {
+        "services": [
+          {
+            "name": "WebFrontEnd",
+            "properties": {
+              "description": "WebFrontEnd description.",
+              "osType": "linux",
+              "codePackages": [
+                {
+                  "name": "WebFrontEnd",
+                  "image": "[parameters('frontEndImage')]",
+                  "endpoints": [
+                    {
+                      "name": "WebFrontEndListener",
+                      "port": 50039
+                    }
+                  ],
+                  "environmentVariables": [
+                    {
+                      "name": "ASPNETCORE_URLS",
+                      "value": "http://+:50039"
+                    }
+                  ],
+                  "resources": {
+                    "requests": {
+                      "cpu": "[parameters('frontEndCpu')]",
+                      "memoryInGB": "[parameters('frontEndMemory')]"
+                    }
+                  },
+
+                  "imageRegistryCredential": {
+                    "server": "[parameters('registryServer')]",
+                    "username": "[parameters('registryUserName')]",
+                    "password": "[parameters('registryPassword')]"
+                  }
+                }
+              ],
+              "replicaCount": "[parameters('frontEndReplicaCount')]",
+              "autoScalingPolicies": [
+                {
+                  "name": "AutoScaleWorkerRule",
+                  "trigger": {
+                    "kind": "AverageLoad",
+                    "metric": {
+                      "kind": "Resource",
+                      "name": "cpu"
+                    },
+                    "lowerLoadThreshold": "0.2",
+                    "upperLoadThreshold": "0.8",
+                    "scaleIntervalInSeconds": "60"
+                  },
+                  "mechanism": {
+                    "kind": "AddRemoveReplica",
+                    "minCount": "1",
+                    "maxCount": "40",
+                    "scaleIncrement": "1"
+                  }
+                }
+              ],
+              "networkRefs": [
+                {
+                  "name": "[resourceId('Microsoft.ServiceFabricMesh/networks', 'ordersb2bappNetwork')]",
+                  "endpointRefs": [
+                    {
+                      "name": "WebFrontEndListener"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "description": "ordersb2bapp description."
+      }
+    },
+    {
+      "apiVersion": "2018-09-01-preview",
+      "name": "ordersb2bappNetwork",
+      "type": "Microsoft.ServiceFabricMesh/networks",
+      "location": "[parameters('location')]",
+      "dependsOn": [],
+      "properties": {
+        "kind": "Local",
+        "description": "Service Fabric Mesh Network for ordersb2bapp sample.",
+        "networkAddressPrefix": "10.0.0.0/24"
+      }
+    },
+    {
+      "apiVersion": "2018-09-01-preview",
+      "name": "ordersb2bappGateway",
+      "type": "Microsoft.ServiceFabricMesh/gateways",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "Microsoft.ServiceFabricMesh/networks/ordersb2bappNetwork"
+      ],
+      "properties": {
+        "description": "Service Fabric Mesh Gateway for ordersb2bapp sample.",
+        "sourceNetwork": {
+          "name": "Open"
+        },
+        "destinationNetwork": {
+          "name": "[resourceId('Microsoft.ServiceFabricMesh/networks', 'ordersb2bappNetwork')]"
+        },
+        "tcp": [
+          {
+            "name": "web",
+            "port": 50039,
+            "destination": {
+              "applicationName": "ordersb2bapp",
+              "serviceName": "WebFrontEnd",
+              "endpointName": "WebFrontEndListener"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "publicIPAddress": {
+      "value": "[reference('ordersb2bappGateway').ipAddress]",
+      "type": "string"
+    }
+  }
+}

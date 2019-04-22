@@ -5,14 +5,11 @@ services:
       dockerfile: OrderFlowBusinessMonitor/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_HTTPS_PORT: '44374'
-      ASPNETCORE_URLS: https://+:443;http://+:80
+      ASPNETCORE_URLS: http://+:80
     image: orderflowbusinessmonitor
     ports:
-    - published: 50039
+    - published: 50040
       target: 80
-    - published: 44374
-      target: 443
     volumes:
     - C:\Users\Srikantans\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
     - C:\Users\Srikantans\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro

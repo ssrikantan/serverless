@@ -33,12 +33,21 @@ namespace OrderFlowBusinessMonitor.Controllers
         public async Task<IActionResult> Index()
         {
             string userName = User.Identity.Name;
-            string domainName = userName.Substring(userName.IndexOf('@') + 1, userName.IndexOf('.') - userName.IndexOf('@') - 1);
+            string domainName = string.Empty;
+            try
+            {
+                domainName = userName.Substring(userName.IndexOf('@') + 1, userName.IndexOf('.') - userName.IndexOf('@') - 1);
+            }
+            catch (Exception) {
+                //  nothing to be done
+            }
             string partner = string.Empty;
             if ("neocorpone".Equals(domainName))
                 partner = "neocorp";
-            else if("femacorpone".Equals(domainName))
+            else if ("femacorpone".Equals(domainName))
                 partner = "femacorp";
+            else
+                partner = string.Empty;
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageTableConnection);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 

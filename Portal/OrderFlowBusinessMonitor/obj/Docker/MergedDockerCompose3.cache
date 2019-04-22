@@ -7,7 +7,6 @@ services:
     entrypoint: tail -f /dev/null
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_HTTPS_PORT: '44374'
       ASPNETCORE_URLS: http://+:80
       DOTNET_USE_POLLING_FILE_WATCHER: '1'
       NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
@@ -20,7 +19,7 @@ services:
       com.microsoft.visualstudio.debuggee.program: dotnet
       com.microsoft.visualstudio.debuggee.workingdirectory: /app
     ports:
-    - published: 50039
+    - published: 50040
       target: 80
     volumes:
     - C:\Users\Srikantans\serverless\Portal\OrderFlowBusinessMonitor\OrderFlowBusinessMonitor:/app:rw
