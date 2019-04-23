@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "b2badfservice"
+        },
+        "AmazonS3Source_secretAccessKey": {
+            "value": ""
+        },
+        "AzureBlobStore_Orders_connectionString": {
+            "value": ""
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath": {
+            "value": "neocorp"
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath": {
+            "value": "femacorp"
+        },
+        "AmazonS3Source_properties_typeProperties_accessKeyId": {
+            "value": "AKIA5KAX4LEMKPUJC2WW"
+        }
+    }
+}

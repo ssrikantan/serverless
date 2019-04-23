@@ -1,0 +1,346 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "b2badfservice"
+        },
+        "AmazonS3Source_secretAccessKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'secretAccessKey' of 'AmazonS3Source'"
+        },
+        "AzureBlobStore_Orders_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureBlobStore_Orders'"
+        },
+        "AmazonS3Source_properties_typeProperties_accessKeyId": {
+            "type": "string",
+            "defaultValue": "AKIA5KAX4LEMKPUJC2WW"
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "neocorp"
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "femacorp"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/AmazonS3Source')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "Connection to AWS S3 Bucket Store",
+                "annotations": [],
+                "type": "AmazonS3",
+                "typeProperties": {
+                    "serviceUrl": "https://s3-ap-southeast-1.amazonaws.com",
+                    "accessKeyId": "[parameters('AmazonS3Source_properties_typeProperties_accessKeyId')]",
+                    "secretAccessKey": {
+                        "type": "SecureString",
+                        "value": "[parameters('AmazonS3Source_secretAccessKey')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureBlobStore_Orders')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "Blob Store that contains the orders pulled from AWS S3 ",
+                "annotations": [],
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('AzureBlobStore_Orders_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SourceDataset_fmg')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AmazonS3Source",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AmazonS3Object",
+                "typeProperties": {
+                    "key": "*",
+                    "bucketName": "neocorporders"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/AmazonS3Source')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AmazonS3Object1_Femacorp')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AmazonS3Source",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AmazonS3Object",
+                "typeProperties": {
+                    "key": "*",
+                    "bucketName": "femacorporders"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/AmazonS3Source')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureBlobStoreNeocoprOrders')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStore_Orders",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "JsonFormat",
+                        "filePattern": "setOfObjects"
+                    },
+                    "fileName": "[parameters('AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStore_Orders')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureBlobStoreFemacorpOrders')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "AzureBlobStoreFemacorpOrders",
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobStore_Orders",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/AzureBlobStore_Orders')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/CopyOrdersFromAwsFemacorp')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "CopyPipeline_AwsToAzureBlobStore",
+                "activities": [
+                    {
+                        "name": "Copy_fmg",
+                        "type": "Copy",
+                        "dependsOn": [],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "*/"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "femacorp/"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "FileSystemSource",
+                                "recursive": true,
+                                "maxConcurrentConnections": 10
+                            },
+                            "sink": {
+                                "type": "BlobSink",
+                                "copyBehavior": "PreserveHierarchy"
+                            },
+                            "enableStaging": false
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "AmazonS3Object1_Femacorp",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "AzureBlobStoreFemacorpOrders",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RemoveFileAfterCopy",
+                        "description": "Remove the source file after it has been copied",
+                        "type": "Delete",
+                        "dependsOn": [
+                            {
+                                "activity": "Copy_fmg",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "dataset": {
+                                "referenceName": "AmazonS3Object1_Femacorp",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            },
+                            "enableLogging": false
+                        }
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/datasets/AmazonS3Object1_Femacorp')]",
+                "[concat(variables('factoryId'), '/datasets/AzureBlobStoreFemacorpOrders')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/CopyPipeline_AwsToAzureNeocorpOrders')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "CopyPipeline_AwsToAzureBlobStore for Neocorp",
+                "activities": [
+                    {
+                        "name": "Copy_fmg",
+                        "type": "Copy",
+                        "dependsOn": [],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "*/"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "femacorp/"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "FileSystemSource",
+                                "recursive": true,
+                                "maxConcurrentConnections": 10
+                            },
+                            "sink": {
+                                "type": "BlobSink",
+                                "copyBehavior": "PreserveHierarchy"
+                            },
+                            "enableStaging": false
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "SourceDataset_fmg",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "AzureBlobStoreNeocoprOrders",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RemoveFileAfterCopy",
+                        "description": "Remove the source file after it has been copied",
+                        "type": "Delete",
+                        "dependsOn": [
+                            {
+                                "activity": "Copy_fmg",
+                                "dependencyConditions": [
+                                    "Succeeded"
+                                ]
+                            }
+                        ],
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [],
+                        "typeProperties": {
+                            "dataset": {
+                                "referenceName": "SourceDataset_fmg",
+                                "type": "DatasetReference",
+                                "parameters": {}
+                            },
+                            "enableLogging": false
+                        }
+                    }
+                ],
+                "annotations": []
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/datasets/SourceDataset_fmg')]",
+                "[concat(variables('factoryId'), '/datasets/AzureBlobStoreNeocoprOrders')]"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "b2badfservice"
+        },
+        "AmazonS3Source_secretAccessKey": {
+            "type": "secureString",
+            "metadata": "Secure string for 'secretAccessKey' of 'AmazonS3Source'"
+        },
+        "AzureBlobStore_Orders_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureBlobStore_Orders'"
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "neocorp"
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "femacorp"
+        },
+        "AmazonS3Source_properties_typeProperties_accessKeyId": {
+            "type": "string",
+            "defaultValue": "AKIA5KAX4LEMKPUJC2WW"
+        },
+        "containerUri": {
+            "type": "string",
+            "metadata": "URI to storage account containing linked ARM templates"
+        },
+        "containerSasToken": {
+            "type": "string",
+            "metadata": "Sas Token to storage account containing linked ARM templates"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "ArmTemplate_0",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-02-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "AmazonS3Source_secretAccessKey": {
+                        "value": "[parameters('AmazonS3Source_secretAccessKey')]"
+                    },
+                    "AzureBlobStore_Orders_connectionString": {
+                        "value": "[parameters('AzureBlobStore_Orders_connectionString')]"
+                    },
+                    "AmazonS3Source_properties_typeProperties_accessKeyId": {
+                        "value": "[parameters('AmazonS3Source_properties_typeProperties_accessKeyId')]"
+                    },
+                    "AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName": {
+                        "value": "[parameters('AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName')]"
+                    },
+                    "AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath": {
+                        "value": "[parameters('AzureBlobStoreNeocoprOrders_properties_typeProperties_folderPath')]"
+                    },
+                    "AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName": {
+                        "value": "[parameters('AzureBlobStoreFemacorpOrders_properties_typeProperties_fileName')]"
+                    },
+                    "AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath": {
+                        "value": "[parameters('AzureBlobStoreFemacorpOrders_properties_typeProperties_folderPath')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}
