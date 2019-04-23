@@ -1,0 +1,81 @@
+{
+	"name": "CopyPipeline_AwsToAzureNeocorpOrders",
+	"properties": {
+		"description": "CopyPipeline_AwsToAzureBlobStore for Neocorp",
+		"activities": [
+			{
+				"name": "Copy_fmg",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "*/"
+					},
+					{
+						"name": "Destination",
+						"value": "femacorp/"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "FileSystemSource",
+						"recursive": true,
+						"maxConcurrentConnections": 10
+					},
+					"sink": {
+						"type": "BlobSink",
+						"copyBehavior": "PreserveHierarchy"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_fmg",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureBlobStoreNeocoprOrders",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "RemoveFileAfterCopy",
+				"description": "Remove the source file after it has been copied",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "Copy_fmg",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "SourceDataset_fmg",
+						"type": "DatasetReference"
+					},
+					"enableLogging": false
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

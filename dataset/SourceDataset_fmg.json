@@ -1,0 +1,15 @@
+{
+	"name": "SourceDataset_fmg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AmazonS3Source",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AmazonS3Object",
+		"typeProperties": {
+			"key": "*",
+			"bucketName": "neocorporders"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

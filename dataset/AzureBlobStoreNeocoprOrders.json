@@ -1,0 +1,19 @@
+{
+	"name": "AzureBlobStoreNeocoprOrders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStore_Orders",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"fileName": "",
+			"folderPath": "neocorp"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
