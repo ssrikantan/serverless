@@ -14,14 +14,14 @@ Run this template to deploy the ADF Pipelines in your subscription. Edit the *ar
 
 Upload the sample files to S3 Buckets, trigger the ADF Pipeline in Azure to move the files to Azure Storage Account. Screenshot below shows the outcome of the Pipeline run.
 
-<img src="./images/ADF_Run.PNG" alt="drawing" height="500px">
+<img src="./images/ADF_Run.PNG" alt="drawing" height="350px">
 
 ## Order process Flow - Event Trigger
 
 ### Event Grid Topic Subscription
 An Event Grid Topic Event is configured on the Storage Account **svlsb2bin**. A Subscription is created on a 'Blob created' Event for the Logic App Process Flow **ordergenflow**. This triggers the Logic App process. Screenshot below shows the trigger from Event Grid that triggers the Logic App.
 
-<img src="./images/EventGridSubscription.PNG" alt="drawing" height="350px"/>
+<img src="./images/EventGridSubscription.PNG" alt="drawing" height="500px"/>
 
 ### Business Process Flow - Logic App
 
