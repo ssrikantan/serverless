@@ -44,7 +44,7 @@ At the end of the Logic App flow, the order data gets stored in Azure Storage Ta
 
 ### Azure Functions (FaaS)
 
-The source code of the Azure Function App used in this sample is available in the Visual Studio 2017 Solution located at ./ordersflow/ordersflow.sln in the Repository. There are 2 Functions created that are exposed as HTTP callable APIs
+The source code of the Azure Function App **ordersflow** used in this sample is available in the Visual Studio 2017 Solution located at ./ordersflow/ordersflow.sln in the Repository. There are 2 Functions created that are exposed as HTTP callable APIs
 - Get orders pending approval
 - approve an order in the Storage Table
 
@@ -55,9 +55,27 @@ Acts as the facade to the APIs exposed by the Function App. A Consumption tier i
 
 ### App for order data approval
 
+#### Create custom connector for the Function App APIs in PowerApps 
+From the API Management Gateway instance **orderfacade**, use the built in feature to export the Open API specification for an API. Import this file into PowerApps custom connector. See the screenshot below. Test each of these definitions and ensure that you are able to invoke the Function App APIs. At the end of this step, a custom connection instance is created from this custom connector in PowerApps.
+
+<img src="./images/PowerAppsCustomConnector.PNG" alt="drawing" height="500px"/>
+
+#### Create the PowerApps App
+
+The PowerApps App **OrderApproval** file acompaying this article can be accessed from ./powerapp/OrderApproval.mapp in the Respository.
+Load all the orders pending approval, and ensure that you are able to update the status to 'approved' or 'rejected' as the case may be.  
+<img src="./image/PowerApps.PNG" alt="drawing" height="500px" />
+
 ## Order Business Monitoring
 
+
 ### Web Application - Service Fabric Mesh
+
+The ASP.NET Core 2.0 Mvc Project for this Web Application is available in this Visual Studio Solution file ./Portal/OrderFlowBusinessMonitor/OrderFlowBusinessMonitor.sln in the repository.
+
+For this project, Docker Containers is enabled, and Docker Swarm as the orchestrator. This creates the necessary Dockerfile & Docker Compose files for the Solution. Use Docker commands to tag and push the container image to Azure Container Registry, after compiling the Solution.
+
+This Web Application is integrated with Azure Active Directory for user authentication, using the turnkey capabilities in the Visual Studio 2017 Project Template. The option to support Multi-organization Azure AD Tenant was select when creating the Project to support Multi-tenancy.
 
 ### Multi-tenancy
 
