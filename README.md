@@ -58,13 +58,13 @@ Acts as the facade to the APIs exposed by the Function App. A Consumption tier i
 #### Create custom connector for the Function App APIs in PowerApps 
 From the API Management Gateway instance **orderfacade**, use the built in feature to export the Open API specification for an API. Import this file into PowerApps custom connector. See the screenshot below. Test each of these definitions and ensure that you are able to invoke the Function App APIs. At the end of this step, a custom connection instance is created from this custom connector in PowerApps.
 
-<img src="./images/PowerAppsCustomConnector.PNG" alt="drawing" height="500px"/>
+<img src="./images/PowerapssCustomConnector.PNG" alt="drawing" height="500px"/>
 
 #### Create the PowerApps App
 
 The PowerApps App **OrderApproval** file acompaying this article can be accessed from ./powerapp/OrderApproval.mapp in the Respository.
 Load all the orders pending approval, and ensure that you are able to update the status to 'approved' or 'rejected' as the case may be.  
-<img src="./image/PowerApps.PNG" alt="drawing" height="500px" />
+<img src="./images/PowerApps.PNG" alt="drawing" height="500px" />
 
 ## Order Business Monitoring
 
