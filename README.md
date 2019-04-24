@@ -86,4 +86,4 @@ An ARM Template is used to provision the Azure Service Mesh Application. The ARM
 
 Screenshot below shows the list of Azure Services deployed to implement this scenario.
 
-<img src="./images/resources.PNG" alt="drawing" height="500px"/>
+<img src="./images/resources.png" alt="drawing" height="500px"/>
