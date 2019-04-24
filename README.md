@@ -12,7 +12,9 @@ The ADF Pipelines created for this scenario are available
 ## Order process Flow - Event Trigger
 
 ### Event Grid Topic Subscription
-An Event Grid Topic Event is configured on the Storage Account **svlsb2bin**. A Subscription is created on a 'Blob created' Event for the Logic App Process Flow **ordergenflow**. This triggers the Logic App process
+An Event Grid Topic Event is configured on the Storage Account **svlsb2bin**. A Subscription is created on a 'Blob created' Event for the Logic App Process Flow **ordergenflow**. This triggers the Logic App process. See screenshot below:
+
+<img src="./images/EventGridSubscription.PNG" alt="drawing" height="500px"/>
 
 ### Business Process Flow - Logic App
 
