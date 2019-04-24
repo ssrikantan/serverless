@@ -1,4 +1,4 @@
-# serverless
+# Building solutions using serverless on Azure
 Solution accompanying the blog article on Serverless architectures - covers a scenario where an Organization implements a Business to Business Integration with 2 Trading Partner Organizations. 
  
 ## Order Pickup Pipeline
