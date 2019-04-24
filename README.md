@@ -1,7 +1,9 @@
 # serverless
-Solution accompanying the blog article on Serverless architectures - covers a scenario where an Organization implements a Business to Business Integration scenario with 2 Trading Partner Organizations. TheTrading Partners upload the orders to an AWS S3 Bucket. For simplicity here, a single AWS Account is used with 2 S3 Buckets created in them, one per Trading Partner.
+Solution accompanying the blog article on Serverless architectures - covers a scenario where an Organization implements a Business to Business Integration with 2 Trading Partner Organizations. 
  
 ## Order Pickup Pipeline
+The Trading Partners upload the orders to an AWS S3 Bucket. For simplicity here, a single AWS Account is used with 2 S3 Buckets created in them, one per Trading Partner.
+
 ADF Pipelines are used to move the order data from AWS S3 Bucket to Azure Blob Store. In the sample accompanying this article, there is one ADF Pipeline created per Trading Partner. Screenshot below shows the ADF Connection to AWS S3 Bucket.
 
 <img src="./images/AWSConnection.PNG" alt="drawing" height="500px">
@@ -25,7 +27,7 @@ An Event Grid Topic Event is configured on the Storage Account **svlsb2bin**. A 
 
 ### Business Process Flow - Logic App
 
-The Azure Logic App accompanying this article is available in the Repo. Look for the Visual Studio Solution Project ./b2blogicapp/b2blogicapp.sln. Compile the Solution, right click the **Logicapp.json** file to view it in the Designer.
+The Azure Logic App accompanying this article is available in the Repo. Look for the Visual Studio Solution Project *./b2blogicapp/b2blogicapp.sln*. Compile the Solution, right click the **Logicapp.json** file to view it in the Designer.
 
 To deploy this Logic App to your Subscription, select 'publish' on the **Logicapp.json**. Edit the configuration parameters in it to suit your Azure Subscription, before publishing.
 
@@ -75,10 +77,13 @@ The ASP.NET Core 2.0 Mvc Project for this Web Application is available in this V
 
 For this project, Docker Containers is enabled, and Docker Swarm as the orchestrator. This creates the necessary Dockerfile & Docker Compose files for the Solution. Use Docker commands to tag and push the container image to Azure Container Registry, after compiling the Solution.
 
-This Web Application is integrated with Azure Active Directory for user authentication, using the turnkey capabilities in the Visual Studio 2017 Project Template. The option to support Multi-organization Azure AD Tenant was select when creating the Project to support Multi-tenancy.
+This Web Application is integrated with Azure Active Directory for user authentication, using the turnkey capabilities in the Visual Studio 2017 Project Template. The option to support Multi-organization Azure AD Tenant was selected when creating the Project to support Multi-tenancy.
 
-### Multi-tenancy
+To test the scenario, 2 Azure AD Tenants were created in the Azure Subscription, one per Trading Partner. A user in the Role 'Global Administrator' was created who would approve the use of the Web Application by all Organiational users in that Azure AD Tenant.
+
+An ARM Template is used to provision the Azure Service Mesh Application. The ARM Template is available in the Reposiory at the location ./arm templates/sfmesh/deploysfmeshapp.json. Run this template to deploy the Service Fabric Mesh Application. Retrieve the Public IP Address created for it during the deployment operation and launch the Application. On user sign in, the order data should be visible.
 
 
-##
+Screenshot below shows the list of Azure Services deployed to implement this scenario.
 
+<img src="./images/resources.PNG" alt="drawing" height="500px" />
