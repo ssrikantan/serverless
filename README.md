@@ -1,5 +1,5 @@
 # Building solutions using serverless on Azure
-Solution accompanying the blog article on Serverless architectures - covers a scenario where an Organization implements a Business to Business Integration with 2 Trading Partner Organizations. 
+Solution accompanying the [blog article](https://srikantan67.blogspot.com/2019/04/building-solutions-using-serverless-on.html) on Serverless architectures - covers a scenario where an Organization implements a Business to Business Integration with 2 Trading Partner Organizations. 
  
 ## Order Pickup Pipeline
 The Trading Partners upload the orders to an AWS S3 Bucket. For simplicity here, a single AWS Account is used with 2 S3 Buckets created in them, one per Trading Partner. Per Partner there is an ADF Pipeline that picks up the order data from S3 and inserts them to a designated container in a common Azure Blob Store Account **svlsb2bin**. Screenshot below shows the ADF Connection to an AWS S3 Bucket.
