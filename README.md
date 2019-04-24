@@ -32,19 +32,26 @@ To deploy this Logic App to your Subscription, select 'publish' on the **Logicap
 For simplicity here, a single Logic App is used to handle the process flow pertaining to both the Trading Partners. Based on the folder where the order document was inserted, the Logic App instance determines which Partner this order document pertains to. The Logic App flow now branches into a Partner specific flow. The incoming data is parsed using a JSON Schema, and Business rules are applied to determine whether the order can be approved, or whether it should be flagged for user intervention. 
 The Business rules in the flow are, for simplicity, embedded in the Logic App itself, rather than looking up an external database. After the Business rules are applied, the order status is updated. See screenshot below which shows how the Order status is updated based on the outcome of a Business rule evaluation.
 
-<img src="./images/Bizrule.PNG" alt="drawing" height="200px"/>
+<img src="./images/Bizrule.PNG" alt="drawing" height="350px"/>
 
 Since the order data schema is different across Partners, before the data can be saved in the Azure Storage Table **ordersdata**, it has to be mapped to the target schema. For simplicity here, the source document itself is modified by the Logic App using 'addProperties' and 'removeProperties' inline functions.
 
-At the end of the Logic App flow, the order data gets stored in Azure Storage Table.
 ### Order data Store
-
+The Partnername in the order is used as the Partition Key in the Storage Table, and the Order number is used as the Rowkey
+At the end of the Logic App flow, the order data gets stored in Azure Storage Table.
 
 ## Order Approval
 
 ### Azure Functions (FaaS)
 
+The source code of the Azure Function App used in this sample is available in the Visual Studio 2017 Solution located at ./ordersflow/ordersflow.sln in the Repository. There are 2 Functions created that are exposed as HTTP callable APIs
+- Get orders pending approval
+- approve an order in the Storage Table
+
+To deploy this Function App to your Subscription, edit the localsettings.json file to update the Connection string to the Storage Table. Publish the Project to your Azure Subscription.
+
 ### API Gateway
+Acts as the facade to the APIs exposed by the Function App. A Consumption tier is chosen for the API Management Gateway instance to use the Serverless characteristics. From the API Management Console, use the built in ability to import an existing Function App. From the testing console on the API Management Console, ensure you are able to execute the APIs exposed by the Function App successfully.
 
 ### App for order data approval
 
