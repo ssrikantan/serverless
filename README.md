@@ -21,7 +21,7 @@ Upload the sample files to S3 Buckets, trigger the ADF Pipeline in Azure to move
 ### Event Grid Topic Subscription
 An Event Grid Topic Event is configured on the Storage Account **svlsb2bin**. A Subscription is created on a 'Blob created' Event for the Logic App Process Flow **ordergenflow**. This triggers the Logic App process. Screenshot below shows the trigger from Event Grid that triggers the Logic App.
 
-<img src="./images/EventGridSubscription.PNG" alt="drawing" height="500px"/>
+<img src="./images/EventGridSubscription.PNG" alt="drawing" height="350px"/>
 
 ### Business Process Flow - Logic App
 
