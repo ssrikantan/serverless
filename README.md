@@ -78,5 +78,14 @@ An ARM Template, available at *./arm templates/sfmesh/deploysfmeshapp.json*, is 
 
 
 Screenshot below shows the list of Azure Services deployed to implement this scenario.
+Use this URL http://104.45.72.188:50039/ to access the application, and use the following credentials
+
+Trading Partner 1:
+user name : johndoe@neocorpone.onmicrosoft.com
+pwd: Orderb2b@987
+
+Trading Partner 2:
+user name: ravikumar@femacorpone.onmicrosoft.com
+pwd: Orderb2b@987
 
 <img src="./images/resources.png" alt="drawing" height="500px"/>
