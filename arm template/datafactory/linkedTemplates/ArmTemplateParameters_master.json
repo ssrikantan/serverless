@@ -24,7 +24,7 @@
             "value": "femacorp"
         },
         "AmazonS3Source_properties_typeProperties_accessKeyId": {
-            "value": "AKIA5KAX4LEMKPUJC2WW"
+            "value": "S3 Access Key ID"
         },
         "containerUri": {
             "value": ""
