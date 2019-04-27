@@ -17,7 +17,7 @@
         },
         "AmazonS3Source_properties_typeProperties_accessKeyId": {
             "type": "string",
-            "defaultValue": "AKIA5KAX4LEMKPUJC2WW"
+            "defaultValue": "S3 Access Key ID"
         },
         "AzureBlobStoreNeocoprOrders_properties_typeProperties_fileName": {
             "type": "string",
