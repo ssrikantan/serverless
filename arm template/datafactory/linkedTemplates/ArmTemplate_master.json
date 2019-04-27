@@ -33,7 +33,7 @@
         },
         "AmazonS3Source_properties_typeProperties_accessKeyId": {
             "type": "string",
-            "defaultValue": "AKIA5KAX4LEMKPUJC2WW"
+            "defaultValue": "S3 Secure Access Key"
         },
         "containerUri": {
             "type": "string",
